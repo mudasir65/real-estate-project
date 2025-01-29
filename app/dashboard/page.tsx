@@ -54,7 +54,7 @@ export default function Dashboard() {
       <div>
         <h1 className="text-3xl font-bold">Welcome back, {user?.email}</h1>
         <p className="text-gray-500 mt-2">
-          Here's what's happening with your properties today.
+          Here&apos;s what&apos;s happening with your properties today.
         </p>
       </div>
 
@@ -73,6 +73,10 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="text-center">
+        <p>You&apos;re all caught up! Don&apos;t see your homes?</p>
       </div>
     </div>
   );

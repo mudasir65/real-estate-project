@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Plus } from "lucide-react";
+import Image from 'next/image';
 
 const properties = [
   {
@@ -75,6 +76,14 @@ export default function Properties() {
           </Card>
         ))}
       </div>
+
+      <Image
+        src="/empty-properties.svg"
+        alt="No properties found"
+        width={300}
+        height={200}
+        className="mx-auto"
+      />
     </div>
   );
 }

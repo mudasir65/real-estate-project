@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Building2 } from "lucide-react";
+import Image from 'next/image';
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -31,10 +32,12 @@ export default function Login() {
       {/* Left side - Image and text */}
       <div className="hidden lg:flex lg:w-1/2 bg-gray-900 text-white p-12 flex-col justify-between relative">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3"
             alt="Modern building"
             className="w-full h-full object-cover opacity-50"
+            width={1920}
+            height={1080}
           />
         </div>
         <div className="relative z-10">
@@ -53,7 +56,7 @@ export default function Login() {
           <div className="text-center">
             <h2 className="text-3xl font-bold">Sign in to your account</h2>
             <p className="mt-2 text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="text-primary hover:underline">
                 Sign up
               </Link>
