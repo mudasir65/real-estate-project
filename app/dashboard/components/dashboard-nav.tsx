@@ -12,6 +12,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "My Properties", href: "/dashboard/properties", icon: Building2 },
   { name: "Account", href: "/dashboard/account", icon: User },
+  { name: "Assistants", href: "/dashboard/assistants", icon: Building2 },
 ];
 
 export default function DashboardNav() {
