@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination } from '@/components/ui/pagination';
@@ -8,6 +8,8 @@ import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, query, limit, startAfter, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { deleteUser } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import ReactPaginate from 'react-paginate';
+import '@/app/pagination.css';
 
 interface Assistant {
   id: string;
@@ -19,14 +21,19 @@ interface Assistant {
 
 export default function AssistantsPage() {
   const [assistants, setAssistants] = useState<Assistant[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const pageSize = 10;
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<{id: string, email: string} | null>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<{id: string, name: string} | null>(null);
   const router = useRouter();
+  const [refetch, setRefetch] = useState<number>(1)
+
+  const handlePageClick = (event: { selected: number }) => {
+    setCurrentPage(event.selected);
+  };
 
   const fetchAssistants = async () => {
     try {
@@ -54,10 +61,10 @@ export default function AssistantsPage() {
 
   useEffect(() => {
     fetchAssistants();
-  }, [currentPage]);
+  }, [currentPage, refetch]);
 
-  const handleDeleteClick = (assistantId: string, email: string) => {
-    setSelectedAssistant({ id: assistantId, email });
+  const handleDeleteClick = (assistantId: string, name: string) => {
+    setSelectedAssistant({ id: assistantId, name });
     setShowDeleteModal(true);
   };
 
@@ -76,6 +83,7 @@ export default function AssistantsPage() {
       setIsDeleting(false);
       setShowDeleteModal(false);
       setSelectedAssistant(null);
+      setRefetch(refetch + 1)
     }
   };
 
@@ -111,7 +119,7 @@ export default function AssistantsPage() {
         <TableBody>
           {assistants.map((assistant, index) => (
             <TableRow key={assistant.id}>
-              <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+              <TableCell>{ index + 1}</TableCell>
               <TableCell>{assistant.name}</TableCell>
               <TableCell>{assistant.phone}</TableCell>
               <TableCell>{assistant.email}</TableCell>
@@ -124,7 +132,7 @@ export default function AssistantsPage() {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => handleDeleteClick(assistant.id, assistant.email)}
+                  onClick={() => handleDeleteClick(assistant.id, assistant.name)}
                   disabled={isDeleting}
                 >
                   {isDeleting ? (
@@ -140,12 +148,32 @@ export default function AssistantsPage() {
         </TableBody>
       </Table>
 
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="Next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={totalPages}
+        previousLabel="< Previous"
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        activeClassName="active"
+      />
+
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg max-w-sm w-full">
             <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
-            <p className="mb-4">Are you sure you want to delete {selectedAssistant?.email}?</p>
+            <p className="mb-4">Are you sure you want to delete {selectedAssistant?.name}?</p>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
                 Cancel

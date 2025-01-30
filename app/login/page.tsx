@@ -55,12 +55,6 @@ export default function Login() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold">Sign in to your account</h2>
-            <p className="mt-2 text-gray-600">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
-                Sign up
-              </Link>
-            </p>
           </div>
 
           <form onSubmit={handleLogin} className="mt-8 space-y-6">
@@ -97,6 +91,13 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Sign in
             </Button>
+
+            <div className="text-center text-sm mt-4">
+              Don't have an account?{' '}
+              <Link href="/signup" className="text-blue-500 hover:underline">
+                Sign up
+              </Link>
+            </div>
           </form>
         </div>
       </div>

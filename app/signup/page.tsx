@@ -55,12 +55,6 @@ export default function Signup() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold">Create your account</h2>
-            <p className="mt-2 text-gray-600">
-              Already have an account?{" "}
-              <Link href="/login" className="text-primary hover:underline">
-                Sign in
-              </Link>
-            </p>
           </div>
 
           <form onSubmit={handleSignup} className="mt-8 space-y-6">
@@ -97,6 +91,12 @@ export default function Signup() {
             <Button type="submit" className="w-full">
               Create account
             </Button>
+            <div className="text-center text-sm mt-4">
+              Already have an account?{' '}
+              <Link href="/login" className="text-blue-500 hover:underline">
+                Sign in
+              </Link>
+            </div>
           </form>
         </div>
       </div>
