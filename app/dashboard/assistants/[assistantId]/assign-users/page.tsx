@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import { CheckIcon, UserPlusIcon, ArrowLeftIcon, Loader2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, setDoc, getDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, query, orderBy, limit, startAfter, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { Checkbox } from '@/components/ui/checkbox';
 import ReactPaginate from 'react-paginate';
@@ -77,11 +77,24 @@ export default function AssignUsersPage({ params }: { params: { assistantId: str
       setIsAssigning(true);
       
       // Save to Firestore
-      await setDoc(doc(db, 'assigned-users', params.assistantId), {
-        userIds: selectedUsers,
-        updatedAt: new Date()
-      }, { merge: true });
-
+      const docRef = doc(db, 'assigned-users', params.assistantId)
+      const assignedUsersDoc = await getDoc(docRef);
+      if(assignedUsersDoc.exists()){
+        const userData = {
+            id: assignedUsersDoc.id,
+            data:{...assignedUsersDoc.data()}
+        }
+        if(userData.data.userIds.length > 0){
+            await updateDoc(docRef, {
+                userIds: arrayUnion(...selectedUsers)
+            })
+        }
+      }else{
+        await setDoc(doc(db, 'assigned-users', params.assistantId), {
+            userIds: selectedUsers,
+            updatedAt: new Date()
+        }, { merge: true });
+      }
       router.push(`/dashboard/assistants`);
     } catch (error) {
       console.error('Assignment failed:', error);
