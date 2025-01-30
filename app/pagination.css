@@ -1,24 +1,15 @@
 .pagination {
-  display: flex;
-  gap: 8px;
-  list-style: none;
-  padding: 20px 0;
-  justify-content: center;
+  @apply flex gap-2 list-none justify-end;
 }
 
 .page-item {
-  padding: 4px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
+  @apply px-3 py-1 border rounded-md cursor-pointer;
 }
 
 .page-item.active {
-  background: #0070f3;
-  color: white;
-  border-color: #0070f3;
+  @apply bg-blue-500 text-white border-blue-500;
 }
 
 .page-item:hover:not(.active) {
-  background: #f0f0f0;
+  @apply bg-gray-100;
 } 

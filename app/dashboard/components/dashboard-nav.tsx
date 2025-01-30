@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Home, LogOut, User } from "lucide-react";
+import { Building2, Home, LogOut, User, Users, PcCase } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ const navigation = [
   { name: "My Properties", href: "/dashboard/properties", icon: Building2 },
   { name: "Account", href: "/dashboard/account", icon: User },
   { name: "Assistants", href: "/dashboard/assistants", icon: Building2 },
+  { name: "Users", href: "/dashboard/users", icon: Users },
+  { name: "Assigned Users", href: "/dashboard/assigned-users", icon: PcCase }
 ];
 
 export default function DashboardNav() {

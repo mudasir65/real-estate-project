@@ -10,15 +10,27 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Building2 } from "lucide-react";
 import Image from 'next/image';
+import { z } from "zod";
+
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+  confirmPassword: z.string().min(6)
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"]
+});
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(password !== confirmPassword) return;
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
@@ -83,6 +95,17 @@ export default function Signup() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </div>
