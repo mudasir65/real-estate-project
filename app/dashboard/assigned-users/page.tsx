@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { UserIcon } from 'lucide-react';
+import { Loader2, UserIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, getCountFromServer, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -50,11 +50,13 @@ export default function AssignedUsersPage() {
     fetchAssistants();
   }, [currentPage]);
 
-  if (loading) return <div className="flex justify-center p-8">Loading...</div>;
+  if (loading) return <div className="flex justify-center p-8">
+    <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+  </div>;
 
   return (
     <div className="p-6">
-      <Table>
+      <Table className='bg-white mb-10'>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>

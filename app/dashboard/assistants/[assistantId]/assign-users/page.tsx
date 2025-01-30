@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { CheckIcon, UserPlusIcon, ArrowLeftIcon } from 'lucide-react';
+import { CheckIcon, UserPlusIcon, ArrowLeftIcon, Loader2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, setDoc, getDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -90,7 +90,7 @@ export default function AssignUsersPage({ params }: { params: { assistantId: str
     }
   };
 
-  if (loading) return <div className="flex justify-center p-8"><span>Loading...</span></div>;
+  if (loading) return <div className="flex justify-center p-8"><Loader2 className="h-12 w-12 animate-spin text-blue-500"/></div>;
 
   return (
     <div className="p-6">
@@ -113,7 +113,7 @@ export default function AssignUsersPage({ params }: { params: { assistantId: str
         </Button>
       </div>
 
-      <Table>
+      <Table className='bg-white mb-10'>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[50px]">

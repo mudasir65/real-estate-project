@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import ReactPaginate from 'react-paginate';
+import { ArrowLeftIcon, Loader2 } from 'lucide-react';
 
 interface User {
   id: string;
@@ -51,14 +52,14 @@ export default function AssistantUsersPage({ params }: { params: { assistantId: 
     (currentPage + 1) * pageSize
   );
 
-  if (loading) return <div className="flex justify-center p-8">Loading...</div>;
+  if (loading) return <div className="flex justify-center p-8"><Loader2 className="h-12 w-12 animate-spin text-blue-500"/></div>;
 
   return (
     <div className="p-6">
-      <Button variant="outline" onClick={() => router.back()} className="mb-4">
-        Back
+      <Button variant="outline" size="icon" onClick={() => router.back()} className="mb-4">
+        <ArrowLeftIcon className='h-4 w-4' />
       </Button>
-      <Table>
+      <Table className='bg-white mb-10'>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>

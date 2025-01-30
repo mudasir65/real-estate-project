@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { TrashIcon } from 'lucide-react';
+import { Loader2, TrashIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, deleteDoc, getCountFromServer, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -63,13 +63,14 @@ export default function UsersPage() {
     }
   };
 
-  if (loading) return <div className="flex justify-center p-8">Loading...</div>;
+  if (loading) return <div className="flex justify-center p-8"><Loader2 className="h-12 w-12 animate-spin text-blue-500"/></div>;
 
   return (
     <div className="p-6">
-      <Table>
+      <Table className='bg-white mb-10'>
         <TableHeader>
           <TableRow>
+            <TableHead>No.</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
@@ -77,8 +78,9 @@ export default function UsersPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users.map((user, i) => (
             <TableRow key={user.id}>
+                <TableCell>{i + 1}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone}</TableCell>
